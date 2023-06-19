@@ -1,0 +1,114 @@
+app-id: io.gitlab.Lycanite.Arachnotron
+runtime: org.kde.Platform
+runtime-version: '5.15-22.08'
+sdk: org.kde.Sdk
+command: Arachnotron
+finish-args:
+  - --device=all
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --share=network
+  - --socket=pulseaudio
+
+  # Based on GZDoom
+  # We redirect the original ~/.config/gzdoom
+  - --env=DOOMWADDIR=/app/share/games/doom
+  - --persist=.config/gzdoom
+
+  # Simpler way of preventing KDE related errors
+  - --env=KDE_FULL_SESSION=false
+cleanup:
+  - /include
+  - '*.a'
+  - '*.la'
+  - /lib/pkgconfig
+  - /lib/qt5/mkspecs
+  - /share/man
+  - /share/cmake
+  - /app/include
+  - /app/lib/*.a
+  - /app/lib/*.la
+  - /app/lib/pkgconfig
+modules:
+
+  # Build GZDoom engine and dependencies
+  - shared-modules/SDL2/SDL2-no-libdecor.json
+  - shared-modules/gzdoom/gzdoom.json
+
+  # Create the GZDoom launcher script
+  - name: gzdoom-launcher
+    buildsystem: simple
+    sources:
+      - type: script
+        commands:
+          - gzdoom +fluid_patchset /app/share/sounds/sf2/gzdoom.sf2 -file lights.pk3 brightmaps.pk3 "$@"
+        dest-filename: gzdoom.sh
+    build-commands:
+      - install -D gzdoom.sh /app/bin/GZDoom
+
+  # Install Freedoom WADs
+  - name: freedoom
+    buildsystem: simple
+    sources:
+      - type: archive
+        url: https://github.com/freedoom/freedoom/releases/download/v0.12.1/freedoom-0.12.1.zip
+        sha256: f42c6810fc89b0282de1466c2c9c7c9818031a8d556256a6db1b69f6a77b5806
+    build-commands:
+      - install -Dm 644 freedoom1.wad /app/share/games/doom
+      - install -Dm 644 freedoom2.wad /app/share/games/doom
+
+  # Build application from Git sources
+  - name: arachnotron-build
+    buildsystem: qmake
+    builddir: true
+    sources:
+      - type: git
+        url: https://gitlab.com/Lycanite/arachnotron.git
+        tag: v1.1.4
+    post-install:
+      - install -d /app/bin
+      - install ./bin/arachnotron /app/bin/arachnotron.bin
+
+  # Prepare Arachnotron initial configs
+  - name: arachnotron-config
+    buildsystem: simple
+    sources:
+      - type: dir
+        path: config
+    build-commands:
+      - install -dm ug+rwx /app/share/config /app/share/config/categories /app/share/config/profiles
+      - install -Dm ug+rw *.json /app/share/config
+      - install -Dm ug+rw categories/*.json /app/share/config/categories
+      - install -Dm ug+rw categories/*.png /app/share/config/categories
+      - install -Dm ug+rw profiles/*.json /app/share/config/profiles
+      - install -Dm ug+rw profiles/*.png /app/share/config/profiles
+
+  # Script for copying initial configs (if not present) and running the application
+  - name: arachnotron-launcher
+    buildsystem: simple
+    sources:
+      - type: script
+        commands:
+          - "arachnotron_home=$XDG_CONFIG_HOME/Arachnotron"
+          - "[ ! -d $arachnotron_home ] && mkdir -p $arachnotron_home/config"
+          - "[ ! -f $arachnotron_home/config/settings.json ] && cp -r /app/share/config/* $arachnotron_home/config"
+          - "pushd $arachnotron_home && exec /app/bin/arachnotron.bin"
+        dest-filename: Arachnotron
+    build-commands:
+      - install -D Arachnotron /app/bin/Arachnotron
+
+  # Install desktop files
+  - name: arachnotron-desktop
+    buildsystem: simple
+    sources:
+      - type: file
+        path: io.gitlab.Lycanite.Arachnotron.appdata.xml
+      - type: file
+        path: io.gitlab.Lycanite.Arachnotron.desktop
+      - type: file
+        path: io.gitlab.Lycanite.Arachnotron.png
+    build-commands:
+      - install -D io.gitlab.Lycanite.Arachnotron.appdata.xml -t /app/share/appdata
+      - install -Dm 644 io.gitlab.Lycanite.Arachnotron.desktop -t /app/share/applications
+      - install -Dm 644 io.gitlab.Lycanite.Arachnotron.png -t /app/share/icons/hicolor/128x128/apps

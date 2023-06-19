@@ -1,0 +1,23 @@
+{
+    "autostart": false,
+    "engines": [
+        {
+            "config": "",
+            "name": "GZDoom",
+            "path": "GZDoom"
+        }
+    ],
+    "iwads": [
+        {
+            "name": "Freedoom1",
+            "path": "/app/share/games/doom/freedoom1.wad"
+        },
+        {
+            "name": "Freedoom2",
+            "path": "/app/share/games/doom/freedoom2.wad"
+        }
+    ],
+    "minimizeClose": false,
+    "minimizeTray": false
+}
+

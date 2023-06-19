@@ -1,0 +1,7 @@
+{
+    "profiles": [
+        "config/profiles/freedoom1.json",
+        "config/profiles/freedoom2.json"
+    ]
+}
+

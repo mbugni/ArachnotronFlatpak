@@ -1,0 +1,19 @@
+{
+    "args": "",
+    "backgroundPath": "freedoom_bg.png",
+    "backgroundTileHide": false,
+    "categories": [
+        "GZDoom"
+    ],
+    "cvars": [
+    ],
+    "engine": "GZDoom",
+    "iconPath": "freedoom2.png",
+    "iwad": "Freedoom2",
+    "name": "Freedoom Phase 2",
+    "playerClasses": [
+    ],
+    "resources": [
+    ]
+}
+

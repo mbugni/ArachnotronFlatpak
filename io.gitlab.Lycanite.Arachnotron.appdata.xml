@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>io.gitlab.Lycanite.Arachnotron</id>
+  <launchable type="desktop-id">io.gitlab.Lycanite.Arachnotron.desktop</launchable>
+  <name>Arachnotron</name>
+  <summary>A Responsive, Cross Platform Doom Launcher</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPLv3</project_license>
+  <developer_name>Lycanite</developer_name>
+  <url type="homepage">https://gitlab.com/Lycanite/arachnotron</url>
+  <description>
+    <p>
+      Arachnotron is a launcher for Doom source ports such as GZDoom developed in QT with cross platform in mind.
+    </p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://i.imgur.com/Tozpw0n.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://i.imgur.com/vmWI5jR.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://i.imgur.com/QJZjND9.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://i.imgur.com/rKAhhoQ.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://i.imgur.com/CnJfYFO.png</image>
+    </screenshot>
+  </screenshots>
+  <update_contact>massi.ergosum_AT_gmail.com</update_contact>
+  <content_rating type="oars-1.1">
+    <content_attribute id="violence-fantasy">intense</content_attribute>
+    <content_attribute id="violence-realistic">intense</content_attribute>
+    <content_attribute id="violence-bloodshed">moderate</content_attribute>
+  </content_rating>
+  <releases>
+    <release version="1.1.4" date="2023-06-07"/>
+  </releases>
+  <provides>
+    <binary>Arachnotron</binary>
+  </provides>
+</component>

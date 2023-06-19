@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Arachnotron
+Comment=A Responsive, Cross Platform Doom Launcher
+Comment[it]=Un Avviatore per Doom Reattivo e Portabile
+Exec=Arachnotron
+Icon=io.gitlab.Lycanite.Arachnotron
+Type=Application
+Categories=Game
+X-Desktop-File-Install-Version=0.26
+Keywords=first;person;shooter;doom;
